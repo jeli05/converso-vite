@@ -1,5 +1,3 @@
-// TextBox.js
-
 import React, { useState, useEffect } from 'react';
 import './TextBox.css'; // Import the CSS file for styling
 import { Sapling } from "@saplingai/sapling-js/observer";
@@ -11,19 +9,6 @@ function getDate() {
     const date = today.getDate();
     return `${month}/${date}/${year}`;
 }
-
-// initialize responses item in local storage
-// responses is array of dict
-// let responses: { date: string { lang: string : { response: string } } }[] = [];
-// [ "01-01-2024": { "de", { "postContent":"Hallo" } }, "01-02-2024": { "it", { "postContent":"Ciao" } } ]
-// let responses: { [key: string]: { language: string; postContent: string } }[] = [];
-// if (localStorage.getItem('my_responses') === null) {
-//     localStorage.setItem('my_responses', "");
-// } else {
-//     if (localStorage.getItem('my_responses')) {
-//         responses = JSON.parse(localStorage.getItem('my_responses') || "");
-//     }
-// }
 
 const TextBox: React.FC = () => {
     // state to make text box uneditable after submit
@@ -42,11 +27,6 @@ const TextBox: React.FC = () => {
         statusBadge: true,
         mode: 'dev',
     });
-    // Sapling.init({
-    //     // endpointHostname: 'http://127.0.0.1:5000',
-    //     // saplingPathPrefix: '/sapling',
-    //     lang: JSON.parse(localStorage.getItem("currLang") || ""), // change to selected language
-    // });
   });
 
   const isInputValid = userInput.length >= 70 && userInput.length <= 130; // set length constraints
@@ -70,6 +50,7 @@ const TextBox: React.FC = () => {
     // make text box uneditable
     setIsEditable(false);
 
+    // create item for today's response
     const todayDate: string = getDate();
     const currentLang: string | null = localStorage.getItem('currLang');
     const entry: { [key: string]: { [key: string]: any } } = {};
@@ -78,12 +59,15 @@ const TextBox: React.FC = () => {
     entry[todayDate] = subentry;
     console.log(entry);
 
+    // initialize responses array in local storage
+    // [ "01-01-2024": { "de", { "postContent":"Hallo" } }, "01-02-2024": { "it", { "postContent":"Ciao" } } ]
     const storedResponses = localStorage.getItem('my_responses');
     let responses: Array<{ [key: string]: { [key: string]: any } }> = [];
     if (storedResponses) {
       responses = JSON.parse(storedResponses);
     }
 
+    // save responses in updated localStorage item
     responses.push(entry);
     localStorage.setItem('my_responses', JSON.stringify(responses));
     console.log("responses: ", responses);
