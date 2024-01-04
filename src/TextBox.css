@@ -18,7 +18,15 @@ textarea:focus::placeholder {
 
 .char-display {
     position: absolute;
-    bottom: 65px;
-    right: 5px;
+    bottom: 70px;
+    right: 25px;
     font-size: 14px;
+}
+
+.submit-button {
+    background-color:#e79215;
+}
+
+.submit-button:disabled {
+ background: grey;
 }

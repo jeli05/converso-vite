@@ -69,19 +69,13 @@ const TextBox: React.FC = () => {
     
     // make text box uneditable
     setIsEditable(false);
-    
+
     const todayDate: string = getDate();
     const currentLang: string | null = localStorage.getItem('currLang');
     const entry: { [key: string]: { [key: string]: any } } = {};
     const subentry: { [key: string]: any } = {};
     subentry[currentLang as string] = formJson;
     entry[todayDate] = subentry;
-    // let todayDate = getDate();
-    // let currentLang = localStorage.getItem('currLang');
-    // let entry = {};
-    // let subentry = {};
-    // subentry[currentLang] = formJson;
-    // entry[todayDate] = subentry;
     console.log(entry);
 
     const storedResponses = localStorage.getItem('my_responses');
@@ -117,14 +111,14 @@ const TextBox: React.FC = () => {
             disabled={!isEditable}
             id="editor"
             />
-            <div className="char-display" style={{ color: isInputValid ? 'black' : 'red'}}>
+            <div className="char-display" id="inputCharCount" style={{ color: isInputValid ? 'black' : 'red'}}>
                 {userInput.length}
             </div>
             <p>70-130 characters</p>
         </label>
         </div>
         <hr />
-        <button type="submit" disabled={disableSubmit}>Check grammar</button>
+        <button className="submit-button" type="submit" disabled={disableSubmit}>Check grammar</button>
         </form>
     </div>
   );
