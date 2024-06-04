@@ -50,6 +50,7 @@ const TextBox: React.FC = () => {
         editPathname: '/api/v1/edits',
         statusBadge: true,
         mode: 'dev',
+        lang: 'auto'
     });
   });
 
