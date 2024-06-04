@@ -18,7 +18,7 @@ function getDate(): string {
 
 // supported languages
 const languages: Languages = {
-  'en': 'English', 
+  'en': 'Select language', 
   'fr': 'French', 
   'es': 'Spanish', 
   'it': 'Italian', 

@@ -13,15 +13,39 @@ function getDate() {
 const TextBox: React.FC = () => {
     // state to make text box uneditable after submit
   const [isEditable, setIsEditable] = useState(true);
+  // const [isTextBoxDisabledFromUnsetLang, setIsTextBoxDisabledFromUnsetLang] = useState<boolean>(false);
   const [userInput, setUserInput] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUserInput(event.target.value);
+
+    // if submitted entry exists in one lang, set isInputValid to false and disableSubmit to false
+
   };  
   
   useEffect(() => {
+    // console.log("in useEffect")
+    // let temp=true
+    // const currentLang = JSON.parse(localStorage.getItem('currLang')!);
+    // if (currentLang === "en" && temp == true && isEditable == true) {
+    //   temp = false
+    //   setIsEditable(false)
+    //   console.log("condition 1")
+    //   // setIsTextBoxDisabledFromUnsetLang(true)
+    // } else if (currentLang !== "en" && isEditable == true) {
+    //   setIsEditable(true)
+    //   console.log("condition 2")
+    // } else { // if isEditable == false
+    //   setIsEditable(false)
+    //   console.log("condition 3")
+    //   temp = false
+    //   // setIsTextBoxDisabledFromUnsetLang(false)
+    // }
+    // console.log("state of isEditable: ", isEditable)
+
+
     Sapling.init({
-        key: 'AR46FO1Z1P4KMK17RZ6XVO6ZAUFPW9SG',
+        key: '5HQHQCWGDK3ZU5B7J8ZK12DSTVCQZS7O',
         endpointHostname: 'https://api.sapling.ai',
         editPathname: '/api/v1/edits',
         statusBadge: true,
@@ -31,6 +55,19 @@ const TextBox: React.FC = () => {
 
   const isInputValid = userInput.length >= 70 && userInput.length <= 130; // set length constraints
   const disableSubmit = (!isInputValid || !isEditable) ? true : false; // disable submit if not meeting length constraints or response submitted
+
+  // disable textbox if no language selected (i.e. en)
+  // const currentLang: string | null = localStorage.getItem('currLang');
+  // console.log(currentLang)
+  // console.log("en")
+  // let temp=true
+  // const currentLang = JSON.parse(localStorage.getItem('currLang')!);
+  // if (currentLang === "en" && temp == true) {
+  //   // setIsEditable(false)
+  //   console.log("FALSE - after lang check")
+  //   temp = false
+  // }
+  // console.log("after lang check")
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     // Prevent the browser from reloading the page
@@ -72,11 +109,16 @@ const TextBox: React.FC = () => {
     localStorage.setItem('my_responses', JSON.stringify(responses));
     console.log("responses: ", responses);
 
+    // store list of languages for which there are submitted responses for current day
+    // this enables prompts for multiple languages to be answered
+    
+
     // use Sapling
     const editor = document.getElementById('editor');
     if (editor) {
         Sapling.observe(editor);
       }
+    console.log(editor)
 }
 
   return (
