@@ -45,7 +45,7 @@ const TextBox: React.FC = () => {
 
 
     Sapling.init({
-        key: '5HQHQCWGDK3ZU5B7J8ZK12DSTVCQZS7O',
+        key: '4K4602OENLDE9MYM53Q3AC5XGEZGWPD1',
         endpointHostname: 'https://api.sapling.ai',
         editPathname: '/api/v1/edits',
         statusBadge: true,
