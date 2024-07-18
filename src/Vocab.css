@@ -1,0 +1,23 @@
+li {
+    display: inline;
+    padding: 5px;
+    /* margin-bottom: 10px; */
+}
+
+.vocab-button {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+.seen .vocab-button {
+background-color: lightgreen;
+text-decoration: line-through;
+}
+
+.unseen .vocab-button {
+background-color: lightcoral;
+}
+  

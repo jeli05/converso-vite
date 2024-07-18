@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './App.css'
 import TextBox from './TextBox';
 import { fr_prompts, es_prompts, it_prompts, pt_prompts, de_prompts } from './Prompts';
+import VocabularyList from './Vocab'
 
 type Languages = {
   [key: string]: string;
@@ -71,6 +72,8 @@ setPrompts()
 console.log("Initial currLang: ", localStorage.getItem('currLang'));
 let today_prompt = displayPrompt(JSON.parse(localStorage.getItem('currLang') || 'en'));
 
+// still need to display vocab based on selected language
+
 function App(): JSX.Element {
   const [currentDate] = useState(getDate());
   const [currentLang, setLang] = useState<string>(JSON.parse(localStorage.getItem('currLang') || 'en'));
@@ -98,6 +101,8 @@ function App(): JSX.Element {
         ))}
       </select>
       <p>{today_prompt}</p>
+      <div><VocabularyList /></div>
+      <br></br>
       <TextBox />
     </div>
   );
