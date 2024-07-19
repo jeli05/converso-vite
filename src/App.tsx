@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import './App.css'
 import TextBox from './TextBox';
 import { fr_prompts, es_prompts, it_prompts, pt_prompts, de_prompts } from './Prompts';
-import VocabularyList from './Vocab'
+import './Vocab.css';
+import { vocabularyDataES, vocabularyDataDE, vocabularyDataFR, vocabularyDataIT, vocabularyDataPT } from './vocab';
 
 type Languages = {
   [key: string]: string;
@@ -63,16 +64,70 @@ function displayPrompt(lang: string): string {
   }
 }
 
+function displayVocab(lang: string): any {
+  let vocabularyData = [{}];
+  if (lang === 'fr') {
+    vocabularyData = vocabularyDataFR;
+  } else if (lang === 'es') {
+    vocabularyData = vocabularyDataES;
+  } else if (lang === 'it') {
+    vocabularyData = vocabularyDataIT;
+  } else if (lang === 'pt') {
+    vocabularyData = vocabularyDataPT;
+  } else if (lang === 'de') {
+    vocabularyData = vocabularyDataDE;
+  }
+  if (vocabularyData != null ) console.log("Vocab selected:", vocabularyData.length);
+  return vocabularyData;
+};
+
+interface VocabItem {
+  id: number;
+  original: string;
+  english: string;
+  seen: boolean;
+}
+
+interface VocabularyListProps {
+  vocabList: VocabItem[];
+  toggleSeen: (id: number) => void;
+}
+
+function getRandomInt(vocab_length: number) {
+  return Math.floor((Math.random() * (vocab_length - 4))); // account for only showing 5 words
+}
+
+const startIndex = getRandomInt(vocabularyDataES.length);
+const endIndex = startIndex + 5;
+
+function VocabularyList({ vocabList, toggleSeen }: VocabularyListProps) {
+  return (
+    <div>
+        {vocabList.slice(startIndex, endIndex).map(item => ( // only display 5 to not overwhelm user
+          <li key={item.id} className={item.seen ? 'seen' : 'unseen' }>
+            <button // use button to mark word as seen/used
+              onClick={() => toggleSeen(item.id)}
+              className="vocab-button"
+              title={item.english}
+            >
+              {item.original}
+            </button>
+          </li> // will need to allow for hovering to show english translation
+        ))}
+    </div>
+  );
+}
+
 if (localStorage.getItem('currLang') === null) {
   localStorage.setItem('currLang', JSON.stringify('en'));
 }
 
 // initialize and display prompt in default or selected language
-setPrompts()
+setPrompts() // just for local storage
 console.log("Initial currLang: ", localStorage.getItem('currLang'));
 let today_prompt = displayPrompt(JSON.parse(localStorage.getItem('currLang') || 'en'));
-
-// still need to display vocab based on selected language
+let today_vocab = displayVocab(JSON.parse(localStorage.getItem('currLang') || 'en'));
+// console.log(today_vocab);
 
 function App(): JSX.Element {
   const [currentDate] = useState(getDate());
@@ -88,7 +143,17 @@ function App(): JSX.Element {
     localStorage.setItem('currLang', JSON.stringify(event.target.value));
     console.log("Switched to " + JSON.stringify(event.target.value) + ": " + languages[currLang]);
     today_prompt = displayPrompt(event.target.value);
+    today_vocab = displayVocab(event.target.value); // can still have the function
+    setVocabList(today_vocab);
   }
+
+  const [vocabList, setVocabList] = useState(today_vocab); // use hook
+
+  const toggleSeen = (id: number) => {
+    setVocabList(vocabList.map(item =>
+      item.id === id ? { ...item, seen: !item.seen } : item // copying via spread operator if id matches to update
+    ));
+  };
 
   return (
     <div className='prompt'>
@@ -101,7 +166,7 @@ function App(): JSX.Element {
         ))}
       </select>
       <p>{today_prompt}</p>
-      <div><VocabularyList /></div>
+      <VocabularyList vocabList={vocabList} toggleSeen={toggleSeen} />
       <br></br>
       <TextBox />
     </div>
