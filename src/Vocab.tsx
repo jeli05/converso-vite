@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
 import './Vocab.css';
+import vocabularyData from './es_vocab';
 
 // Sample data, to be replaced with actual vocab later
-const data = `
-la manzana	apple
-el libro	book
-el coche	car
-la casa	house
-el perro	dog
-`.trim().split('\n').map((line, index) => {
-  const [spanish, english] = line.split('\t'); // file is tab-separated
-  return { id: index, spanish, english, seen: false };
-});
+// const data = `
+// la manzana	apple
+// el libro	book
+// el coche	car
+// la casa	house
+// el perro	dog
+// `.trim().split('\n').map((line, index) => {
+//   const [spanish, english] = line.split('\t'); // file is tab-separated
+//   return { id: index, spanish, english, seen: false };
+// });
+
+function getRandomInt() {
+    return Math.floor((Math.random() * (vocabularyData.length - 4))); // account for only showing 5 words
+}
+
+const startIndex = getRandomInt();
+const endIndex = startIndex + 5;
+console.log(startIndex, endIndex);
 
 const VocabularyList: React.FC = () => { // FC not the best practice
-  const [vocabList, setVocabList] = useState(data); // use hook
+  const [vocabList, setVocabList] = useState(vocabularyData); // use hook
 
   const toggleSeen = (id: number) => {
     setVocabList(vocabList.map(item =>
@@ -24,11 +33,12 @@ const VocabularyList: React.FC = () => { // FC not the best practice
 
   return (
     <div>
-        {vocabList.map(item => (
+        {vocabList.slice(startIndex, endIndex).map(item => ( // only display 5 to not overwhelm user
           <li key={item.id} className={item.seen ? 'seen' : 'unseen' }>
             <button // use button to mark word as seen/used
               onClick={() => toggleSeen(item.id)}
               className="vocab-button"
+              title={item.english}
             >
               {item.spanish}
             </button>
