@@ -133,7 +133,7 @@ const TextBox: React.FC = () => {
             onChange={handleInputChange}
             rows={4}
             cols={60}
-            style={{resize: "none", borderRadius: "8px", marginBottom: '20px'}}
+            style={{resize: "none", borderRadius: "8px"}}
             placeholder='Type your response'
             disabled={!isEditable}
             id="editor"

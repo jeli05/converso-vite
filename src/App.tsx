@@ -4,6 +4,8 @@ import TextBox from './TextBox';
 import { fr_prompts, es_prompts, it_prompts, pt_prompts, de_prompts } from './Prompts';
 import './Vocab.css';
 import { vocabularyDataES, vocabularyDataDE, vocabularyDataFR, vocabularyDataIT, vocabularyDataPT } from './vocab';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import { Tooltip } from "react-tooltip";
 
 type Languages = {
   [key: string]: string;
@@ -103,6 +105,8 @@ const endIndex = startIndex + 5;
 function VocabularyList({ vocabList, toggleSeen }: VocabularyListProps) {
   return (
     <div>
+        <HelpOutlineOutlinedIcon className="vocab-info" data-tooltip-id="vocab-tooltip" data-tooltip-content="Some suggested words to expand your vocabulary!"></HelpOutlineOutlinedIcon>
+        <Tooltip className="vocab-info" id="vocab-tooltip" />
         {vocabList.slice(startIndex, endIndex).map(item => ( // only display 5 to not overwhelm user
           <li key={item.id} className={item.seen ? 'seen' : 'unseen' }>
             <button // use button to mark word as seen/used
@@ -156,7 +160,7 @@ function App(): JSX.Element {
   };
 
   return (
-    <div className='prompt'>
+    <div>
       <h1>Converso: Daily Language Prompts</h1>
       <h2>{currentDate}</h2>
       <h3>Language: {languages[currentLang]}</h3>

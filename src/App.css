@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+.vocab-info {
+  vertical-align: text-bottom;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h2 {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-top: 0;
+}
