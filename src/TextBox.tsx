@@ -45,7 +45,7 @@ const TextBox: React.FC = () => {
 
 
     Sapling.init({
-        key: '4K4602OENLDE9MYM53Q3AC5XGEZGWPD1',
+        key: 'MM4PLIT9JJ2L6VPDAIDIYR4TXPN6XJUM',
         endpointHostname: 'https://api.sapling.ai',
         editPathname: '/api/v1/edits',
         statusBadge: true,
@@ -54,7 +54,11 @@ const TextBox: React.FC = () => {
     });
   });
 
-  const isInputValid = userInput.length >= 70 && userInput.length <= 130; // set length constraints
+  let minCharLength = 70;
+  const currentLang = localStorage.getItem('currLang');
+  if (currentLang === "\"ko\"") minCharLength = 35;
+  console.log(currentLang, "min char limit", minCharLength);
+  const isInputValid = userInput.length >= minCharLength && userInput.length <= 130; // set length constraints
   const disableSubmit = (!isInputValid || !isEditable) ? true : false; // disable submit if not meeting length constraints or response submitted
 
   // disable textbox if no language selected (i.e. en)

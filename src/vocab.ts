@@ -67,6 +67,18 @@ engolir	to swallow
 a enxaqueca	migraine
 `.trim();
 
+const fileContentKO = `
+지갑	Wallet
+자전거	Bicycle 
+타다	To ride 
+내다	To pay
+번개	Lightning 
+사다리	Ladder
+단	Sweet
+천둥	Thunder
+소풍	Picnic
+목	Tree
+`.trim();
 
 export const vocabularyDataES = fileContentES.split('\n').map((line, index) => {
   const [original, english] = line.split('\t');
@@ -89,6 +101,11 @@ export const vocabularyDataIT = fileContentIT.split('\n').map((line, index) => {
 });
 
 export const vocabularyDataPT = fileContentPT.split('\n').map((line, index) => {
+    const [original, english] = line.split('\t');
+    return { id: index, original, english, seen: false };
+});
+
+export const vocabularyDataKO = fileContentKO.split('\n').map((line, index) => {
     const [original, english] = line.split('\t');
     return { id: index, original, english, seen: false };
 });

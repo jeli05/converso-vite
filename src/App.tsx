@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './App.css'
 import TextBox from './TextBox';
-import { fr_prompts, es_prompts, it_prompts, pt_prompts, de_prompts } from './Prompts';
+import { fr_prompts, es_prompts, it_prompts, pt_prompts, de_prompts, ko_prompts } from './Prompts';
 import './Vocab.css';
-import { vocabularyDataES, vocabularyDataDE, vocabularyDataFR, vocabularyDataIT, vocabularyDataPT } from './vocab';
+import { vocabularyDataES, vocabularyDataDE, vocabularyDataFR, vocabularyDataIT, vocabularyDataPT, vocabularyDataKO } from './vocab';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { Tooltip } from "react-tooltip";
 
@@ -27,7 +27,8 @@ const languages: Languages = {
   'es': 'Spanish', 
   'it': 'Italian', 
   'de': 'German', 
-  'pt': 'Portuguese'
+  'pt': 'Portuguese',
+  'ko': 'Korean'
 };
 
 // put all prompts in local storage for retrieval in future sessions
@@ -37,6 +38,7 @@ function setPrompts(): void {
   localStorage.setItem('it_prompts', JSON.stringify(it_prompts));
   localStorage.setItem('pt_prompts', JSON.stringify(pt_prompts));
   localStorage.setItem('de_prompts', JSON.stringify(de_prompts));
+  localStorage.setItem('ko_prompts', JSON.stringify(ko_prompts));
 }
 
 // select prompt based on day of year
@@ -61,6 +63,8 @@ function displayPrompt(lang: string): string {
     return pt_prompts[day];
   } else if (lang === 'de') {
     return de_prompts[day];
+  } else if (lang === 'ko') {
+    return ko_prompts[day];
   } else {
     return "No prompt available";
   }
@@ -78,6 +82,8 @@ function displayVocab(lang: string): any {
     vocabularyData = vocabularyDataPT;
   } else if (lang === 'de') {
     vocabularyData = vocabularyDataDE;
+  } else if (lang === 'ko') {
+    vocabularyData = vocabularyDataKO;
   }
   if (vocabularyData != null ) console.log("Vocab selected:", vocabularyData.length);
   return vocabularyData;
