@@ -6,6 +6,7 @@ import './Vocab.css';
 import { vocabularyDataES, vocabularyDataDE, vocabularyDataFR, vocabularyDataIT, vocabularyDataPT, vocabularyDataKO } from './vocab';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import { Tooltip } from "react-tooltip";
+import SlidingSheet from './SlidingSheet';
 
 type Languages = {
   [key: string]: string;
@@ -165,6 +166,29 @@ function App(): JSX.Element {
     ));
   };
 
+  const [isSheetVisible, setSheetVisible] = useState(false);
+  const [userInput, setUserInput] = useState<string>('');
+
+  const handleToggleSheet = () => {
+    setSheetVisible(!isSheetVisible);
+  };
+
+  const handleUserInputChange = (value: string) => {
+    setUserInput(value);
+  };
+
+  const handleCopyClick = () => {
+    const shareableText = `${currentDate}\n${languages[currLang]}\n${today_prompt}My response:\n${userInput}`;
+
+    navigator.clipboard.writeText(shareableText)
+      .then(() => {
+          console.log('Text copied to clipboard!');
+      })
+      .catch(err => {
+          console.error('Failed to copy text: ', err);
+      });
+  };
+
   return (
     <div>
       <h1>Converso: Daily Language Prompts</h1>
@@ -178,7 +202,16 @@ function App(): JSX.Element {
       <p>{today_prompt}</p>
       <VocabularyList vocabList={vocabList} toggleSeen={toggleSeen} />
       <br></br>
-      <TextBox />
+      <TextBox
+        userInput={userInput}
+        onUserInputChange={handleUserInputChange}
+        onToggleSheet={handleToggleSheet} // Pass down the toggle function
+      />
+      {/* <button onClick={handleCopyClick}>Copy to Clipboard</button> */}
+      <SlidingSheet
+        isVisible={isSheetVisible}
+        onCopy={handleCopyClick}
+      />
     </div>
   );
 }

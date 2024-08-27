@@ -10,15 +10,23 @@ function getDate() {
     return `${month}/${date}/${year}`;
 }
 
-const TextBox: React.FC = () => {
+interface TextBox {
+  userInput: string;
+  onUserInputChange: (value: string) => void;
+  onToggleSheet: () => void; // New prop to handle sheet toggle
+}
+
+const TextBox: React.FC<TextBox> = ({ userInput, onUserInputChange, onToggleSheet }) => {
     // state to make text box uneditable after submit
   const [isEditable, setIsEditable] = useState(true);
   // const [isTextBoxDisabledFromUnsetLang, setIsTextBoxDisabledFromUnsetLang] = useState<boolean>(false);
-  const [userInput, setUserInput] = useState('');
+  // const [userInput, setUserInput] = useState('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setUserInput(event.target.value);
-
+    // setUserInput(event.target.value);
+    if (isEditable) {
+      onUserInputChange(event.target.value);
+    }
     // if submitted entry exists in one lang, set isInputValid to false and disableSubmit to false
 
   };  
@@ -149,7 +157,7 @@ const TextBox: React.FC = () => {
         </label>
         </div>
         <hr />
-        <button className="submit-button" type="submit" disabled={disableSubmit}>Check grammar</button>
+        <button onClick={onToggleSheet} className="submit-button" type="submit" disabled={disableSubmit}>Check grammar</button>
         </form>
     </div>
   );
